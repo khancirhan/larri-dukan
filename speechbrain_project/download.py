@@ -5,6 +5,7 @@ from speechbrain.pretrained import EncoderDecoderASR
 from speechbrain.utils.data_utils import download_file
 import urllib.request
 import json
+import time
 
 class LocalModelDownloader:
     def __init__(self, model_name="asr-crdnn-rnnlm-librispeech"):
@@ -69,31 +70,36 @@ def transcribe_audio(audio_file, model_name="asr-crdnn-rnnlm-librispeech"):
     transcription = asr_model.transcribe_file(audio_file)
     return transcription
 
+
 def main():
     # Example usage
     MODEL_NAME = "asr-crdnn-rnnlm-librispeech"  # You can change this to other models
     
     # Download model
-    print("Downloading model files...")
-    downloader = LocalModelDownloader(MODEL_NAME)
-    downloader.download_model()
+    # print("Downloading model files...")
+    # downloader = LocalModelDownloader(MODEL_NAME)
+    # downloader.download_model()
     
     # Create a test audio if needed
-    if not os.path.exists("test_audio.wav"):
-        print("\nGenerating test audio...")
-        import numpy as np
-        import soundfile as sf
+    # if not os.path.exists("test_audio.wav"):
+    #     print("\nGenerating test audio...")
+    #     import numpy as np
+    #     import soundfile as sf
         
-        sample_rate = 16000
-        duration = 3
-        t = np.linspace(0, duration, int(sample_rate * duration))
-        audio = 0.5 * np.sin(2 * np.pi * 440 * t)
-        sf.write('test_audio.wav', audio, sample_rate)
+    #     sample_rate = 16000
+    #     duration = 3
+    #     t = np.linspace(0, duration, int(sample_rate * duration))
+    #     audio = 0.5 * np.sin(2 * np.pi * 440 * t)
+    #     sf.write('test_audio.wav', audio, sample_rate)
     
     # Test transcription
+    start_time =  time.time()
     print("\nTranscribing test audio...")
-    result = transcribe_audio("test_audio_1.mp3", MODEL_NAME)
+    result = transcribe_audio("sample-9.mp3", MODEL_NAME)
     print(f"Transcription: {result}")
+    end_time =  time.time()
+
+    print(end_time - start_time);
 
 if __name__ == "__main__":
     main()

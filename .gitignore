@@ -3,5 +3,14 @@
 /myenv
 /build
 /dist
+/speechbrain_project/pretrained_models
 /speechbrain_project/speechbrain_env
 .DS_Store
+/wisperx/venv
+/wisperx/build
+/wisperx/dist
+/wisperx/wisperx_models
+/wisperx/transcribe.spec
+/src/assets/wisperx_models
+/src/assets/transcribe
+/sample-audios

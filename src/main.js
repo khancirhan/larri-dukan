@@ -34,7 +34,7 @@ const createWindow = () => {
 };
 
 const handleStartProcess = () => {
-    const process = spawn('./src/assets/app2');
+    const process = spawn('./src/assets/transcribe');
     // const process = spawn('python3', ['./src/assets/app.py']);
 
     // console.log(text.toString());
@@ -92,7 +92,7 @@ const stopProcess = async () => {
     // kafka.stopKafkaProcess();
 
     try {
-        const { data } = await axios.get('http://localhost:5004/transcribe');
+        const { data } = await axios.get('http://localhost:5003/transcribe');
         console.log(data);
     } catch (err) {
         console.log(err);
