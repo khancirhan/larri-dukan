@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Kafka-Starter</title>
+
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap"
+            rel="stylesheet"
+        />
+        <link rel="stylesheet" href="../assets/style.css" />
+    </head>
+    <body>
+        <div class="container">
+            <div class="pageHeader">
+                <h2 class="pageHeading">Kafka-Starter</h2>
+                <div class="status" id="status"></div>
+            </div>
+
+            <div class="actionBar">
+                <button class="startBtn" id="startButton">Start</button>
+
+                <button class="stopBtn" id="stopButton">Stop</button>
+
+                <button class="resetbtn" id="resetButton">Clear</button>
+            </div>
+
+            <div class="terminalWrapper">
+                <div class="terminalContainer">
+                    <h5 class="terminalHeading">Zookeeper Logs</h5>
+
+                    <div class="terminal" id="zookeeperTerminal"></div>
+                </div>
+                <div class="terminalContainer">
+                    <h5 class="terminalHeading">Kafka Logs</h5>
+
+                    <div class="terminal" id="kafkaTerminal"></div>
+                </div>
+            </div>
+        </div>
+    </body>
+
+    <script>
+        const startButton = document.getElementById('startButton');
+        const stopButton = document.getElementById('stopButton');
+        const resetButton = document.getElementById('resetButton');
+        const zookeeperTerminal = document.getElementById('zookeeperTerminal');
+        const kafkaTerminal = document.getElementById('kafkaTerminal');
+        const status = document.getElementById('status');
+
+        const checkIsRunning = () => {
+            setTimeout(async () => {
+                const isRunning = await window.electronAPI.isRunning();
+
+                if (isRunning) {
+                    status.classList.add('online');
+                } else {
+                    status.classList.remove('online');
+                }
+            }, 1000);
+        };
+
+        const scrollToEnd = (container) => {
+            container.scrollTop = container.scrollHeight;
+        };
+
+        setInterval(checkIsRunning, 1000);
+
+        startButton.addEventListener('click', () => {
+            window.electronAPI.startProcess();
+        });
+
+        stopButton.addEventListener('click', () => {
+            window.electronAPI.stopProcess();
+        });
+
+        resetButton.addEventListener('click', () => {
+            zookeeperTerminal.innerHTML = '';
+            kafkaTerminal.innerHTML = '';
+        });
+
+        window.electronAPI.zookeeper.onData((_event, data) => {
+            zookeeperTerminal.insertAdjacentHTML(
+                'beforeend',
+                `<p style="color: ${data.includes('ERROR') ? 'red' : 'green'}">${data}<p>`
+            );
+
+            scrollToEnd(zookeeperTerminal);
+        });
+
+        window.electronAPI.zookeeper.onError((_event, message) => {
+            zookeeperTerminal.insertAdjacentHTML('beforeend', `<p style="color: red">${message}<p>`);
+
+            scrollToEnd(zookeeperTerminal);
+        });
+
+        window.electronAPI.zookeeper.onExit((_event, message) => {
+            zookeeperTerminal.insertAdjacentHTML('beforeend', `<p style="color: red">${message}<p>`);
+
+            scrollToEnd(zookeeperTerminal);
+        });
+
+        window.electronAPI.kafka.onData((_event, data) => {
+            kafkaTerminal.insertAdjacentHTML(
+                'beforeend',
+                `<p style="color: ${data.includes('ERROR') ? 'red' : 'green'}">${data}<p>`
+            );
+
+            scrollToEnd(kafkaTerminal);
+        });
+
+        window.electronAPI.kafka.onError((_event, message) => {
+            kafkaTerminal.insertAdjacentHTML('beforeend', `<p style="color: red">${message}<p>`);
+
+            scrollToEnd(kafkaTerminal);
+        });
+
+        window.electronAPI.kafka.onExit((_event, message) => {
+            kafkaTerminal.insertAdjacentHTML('beforeend', `<p style="color: red">${message}<p>`);
+
+            scrollToEnd(kafkaTerminal);
+        });
+    </script>
+</html>

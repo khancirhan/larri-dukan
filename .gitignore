@@ -1,0 +1,7 @@
+/pretrained_models
+/node_modules
+/myenv
+/build
+/dist
+/speechbrain_project/speechbrain_env
+.DS_Store
