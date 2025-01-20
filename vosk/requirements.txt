@@ -1,0 +1,6 @@
+soundfile
+torchaudio
+pydub
+vosk
+sounddevice
+numpy
