@@ -8,9 +8,9 @@
 .DS_Store
 /wisperx/venv
 /wisperx/build
-/wisperx/dist
-/wisperx/wisperx_models
+/wisperx/dist/*
+/wisperx/wisperx_model
 /wisperx/transcribe.spec
-/src/assets/wisperx_models
+/src/assets/wisperx_model
 /src/assets/transcribe
 /sample-audios

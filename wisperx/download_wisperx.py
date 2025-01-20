@@ -3,7 +3,7 @@ import os
 from transformers import AutoModelForSpeechSeq2Seq, AutoProcessor
 
 # Define paths for model storage
-model_path = "wisperx_models"
+model_path = "wisperx_model"
 os.makedirs(model_path, exist_ok=True)
 
 # Load the model and processor
